@@ -16,5 +16,15 @@ def call(String buildStatus = 'STARTED') {
             colorCode = '#FF0000' // Red
     }
 
-    slackSend(color: colorCode, message: summary, channel: '#jio-devops')
+    //slackSend(color: colorCode, message: summary, channel: '#jio-devops')
+     echo "DEBUG: buildStatus = ${buildStatus}"
+    echo "DEBUG: colorCode = ${colorCode}"
+    echo "DEBUG: summary = ${summary}"
+
+    // Try-catch to prevent pipeline crash
+    try {
+        slackSend(color: colorCode, message: summary, channel: '#jio-devops')
+    } catch (Exception e) {
+        echo "Slack notification failed: ${e.message}"
+    }
 }
